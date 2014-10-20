@@ -1,6 +1,3 @@
-import numpy as np
-
-
 class Piece:
   def __init__(self, list=[]):
     self._list = list

@@ -26,16 +26,26 @@ def rotate_piece(piece, orientation):
   return new_piece
 
 def is_move_valid(board, piece, nail, orientation):
+  """
+  basic assumption : that the nail is actually not occupied
+  """
   piece_to_put = rotate_piece(piece, orientation)
-
+  for y, x in piece_to_put._list :
+    y += nail[0]
+    x += nail[1]
+    if not board.check_spot_empty((y, x)):
+      return False
+  return True
 
 def main():
   board = Board()
   pieces = init_pieces()
 
-  for p in pieces:
-    p.pretty_print()
-    print
+  print is_move_valid(board, pieces[0], (0,2), 0)
+
+  # for p in pieces:
+  #   p.pretty_print()
+  #   print
 
   # p = pieces[0]
 

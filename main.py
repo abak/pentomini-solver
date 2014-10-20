@@ -2,6 +2,9 @@ import numpy as np
 from board import Board
 from piece import Piece
 from random import randint
+import Image
+
+used_colors = []
 
 def init_pieces():
   res = []
@@ -20,7 +23,6 @@ def init_pieces():
   return res
 
 def rotate_piece(piece, orientation):
-  #probably highly ineffective
   new_piece = Piece()
   new_piece._list = list(piece._list)
   new_piece.rotate(orientation)
@@ -54,46 +56,32 @@ def is_move_valid(board, piece, nail):
   return True
 
 def iterate_dfs(board, nails, remaining_pieces):
-  if not nails :
+  if not nails and not remaining_pieces:
     print "completed, final board :"
     board.pretty_print()
-    return 
+    im = Image.fromarray(board._internal_array)
+    im = im.convert('RGB')
+    im.save("final_board.png")
+    return True
   local_nails = list(nails)
   current_nail = local_nails.pop(0)
   possible_moves = generate_valid_moves_for_nail(board, current_nail, remaining_pieces)
   for move in possible_moves:
-    new_board = put_piece(board, move[1], move[0], randint(0, 1000))
-    iterate_dfs(new_board, local_nails, move[2])
+    color = 0
+    while color == 0 or color in used_colors:
+      color = randint(1, 255)
+    new_board = put_piece(board, move[1], move[0], color)
+    if iterate_dfs(new_board, local_nails, move[2]):
+      return True
+  return False
 
 def main():
   nails = [(0, 0), (0, 2), (1, 5), (1, 7), (3, 0), (3, 5), (4, 2), (4, 7), (5, 4), (6, 0), (7, 2), (7, 6)]
   board = Board(nails)
   pieces = init_pieces()
-
-  # print is_move_valid(board, pieces[0], (0,2), 0)
-  # new_board = put_piece(board, pieces[0], (0,2), 128)
-
-  # board.pretty_print()
-  # print "\n\n"
-  # new_board.pretty_print()
-
-  # current_nail = nails.pop(0)
-  # possible_moves = generate_valid_moves_for_nail(board, current_nail, pieces)
-  # for move in possible_moves:
-  #   print move[1]
-  #   print move[0]
+  board.pretty_print()
 
   iterate_dfs(board, nails, pieces)
-
-  # for p in pieces:
-  #   p.pretty_print()
-  #   print
-
-  # p = pieces[0]
-
-  # for i in range (0, 8):
-  #   toto = rotate_piece(p, i)
-  #   toto.pretty_print()
 
 if __name__ == '__main__':
   main()

@@ -10,7 +10,6 @@ class Board:
     self._internal_array[3,4] = 1
     self._internal_array[4,3] = 1
     self._internal_array[4,4] = 1
-    # self._nails = [(0, 0), (0, 2), (1, 5), (1, 7), (3, 0), (3, 5), (4, 2), (4, 7), (5, 4), (6, 0), (7, 2), (7, 6)]
     for nail in nails:
       self._internal_array[nail] = 42
 
@@ -18,13 +17,9 @@ class Board:
     print str(self._internal_array)
 
   def check_spot_empty(self, spot):
-    if spot[0] < 0 or spot[1] < 0:
+    if spot[0] < 0 or spot[1] < 0 or spot[0] > 7 or spot[1] > 7:
       return False
-    try :
-      return self._internal_array[spot[0], spot[1]] == 0 
-    except IndexError:
-      #the piece falls out of the board
-      return False
+    return self._internal_array[spot[0], spot[1]] == 0 
 
   def put_piece_in_spot(self, piece, nail, color):
     self._internal_array[nail] = color

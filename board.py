@@ -9,11 +9,13 @@ class Board:
     self._internal_array[3,4] = 1
     self._internal_array[4,3] = 1
     self._internal_array[4,4] = 1
-    self._nails = [(0, 0), (0, 2), (1, 5), (1, 7), (3, 0), (3, 5), (4, 3), (4, 7), (5, 4), (6, 0), (7, 2), (7, 6)]
+    self._nails = [(0, 0), (0, 2), (1, 5), (1, 7), (3, 0), (3, 5), (4, 2), (4, 7), (5, 4), (6, 0), (7, 2), (7, 6)]
 
   def pretty_print(self):
-    for y in self._internal_array:
-      print str(y)
+    tmp = self._internal_array
+    for (y, x) in self._nails:
+      tmp[y, x] = 42
+    print str(tmp)
 
 
 if __name__ == '__main__':

@@ -42,6 +42,9 @@ def main():
   pieces = init_pieces()
 
   print is_move_valid(board, pieces[0], (0,2), 0)
+  board.put_piece_in_spot(pieces[0], (0,2), 128)
+
+  board.pretty_print()
 
   # for p in pieces:
   #   p.pretty_print()

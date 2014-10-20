@@ -1,4 +1,5 @@
 import numpy as np
+from piece import Piece
 
 
 class Board:
@@ -14,7 +15,8 @@ class Board:
   def pretty_print(self):
     tmp = self._internal_array
     for (y, x) in self._nails:
-      tmp[y, x] = 42
+      if tmp[y, x] == 0:
+        tmp[y, x] = 42
     print str(tmp)
 
   def check_spot_empty(self, spot):
@@ -22,6 +24,13 @@ class Board:
       return False
     else:
       return self._internal_array[spot[0], spot[1]] == 0 
+
+  def put_piece_in_spot(self, piece, nail, color):
+    self._internal_array[nail] = color
+    for y, x in piece._list:
+      y += nail[0]
+      x += nail[1]
+      self._internal_array[y, x] = color
 
 
 if __name__ == '__main__':

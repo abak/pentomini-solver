@@ -17,7 +17,16 @@ class Board:
       tmp[y, x] = 42
     print str(tmp)
 
+  def check_spot_empty(self, spot):
+    if spot in self._nails:
+      return False
+    else:
+      return self._internal_array[spot[0], spot[1]] == 0 
+
 
 if __name__ == '__main__':
   board = Board()
   board.pretty_print()
+
+  print board.check_spot_empty((0,1))
+  print board.check_spot_empty((0,0))
